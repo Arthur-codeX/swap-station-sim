@@ -1,9 +1,7 @@
+import Home from "./Page/Home";
+
 function App() {
-  return (
-    <div>
-      <h1>Mazi Simultation</h1>
-    </div>
-  );
+  return <Home />;
 }
 
 export default App;
