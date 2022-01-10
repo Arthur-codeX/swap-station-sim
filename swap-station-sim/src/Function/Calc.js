@@ -77,6 +77,7 @@ function simulation(inputs, ranges) {
         finishedCharging: theCharge.added,
       };
 
+      console.log(charging);
       arr.push(obj);
       // console.log(obj);
       bikes = newBikes.bikes;
