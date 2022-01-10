@@ -26,6 +26,12 @@ const Side = () => {
       >
         Simulation
       </button>
+      <button
+        className={`w3-button w3-bar-item  w3-border-bottom ${btn[2]}`}
+        onClick={() => dispatch(actSwitchPage("Sim2"))}
+      >
+        Sim
+      </button>
     </div>
   );
 };

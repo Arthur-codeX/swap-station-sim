@@ -7,6 +7,8 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { setSheet1Data } from "./../redux/action";
 
+import { actSetDays } from "./../redux/action";
+
 const SimForm1 = () => {
   const initState = useSelector((store) => store.simForm);
   const sheet1 = useSelector((store) => store.sheets.sheet1);
@@ -178,4 +180,50 @@ const SimForm1 = () => {
   );
 };
 
-export { SimForm1 };
+const SimForm2 = ({ calculateSim }) => {
+  const intDays = useSelector((store) => store.days);
+  const [days, setDays] = useState(intDays);
+  const dispatch = useDispatch();
+
+  async function submitForm() {
+    setDays(parseInt(days));
+    if (days == null || days <= 0) {
+      toast.error("Days Value Not Acceptable");
+      return;
+    }
+    toast.dismiss();
+    toast.info("Calculating The Values", { autoClose: false });
+    dispatch(actSetDays(days));
+    calculateSim(days);
+  }
+
+  return (
+    <div className="w3-card-4 w3-round">
+      <h3 className="w3-blue w3-center thickText w3-padding">
+        Select Number Of Days To Run Sim
+      </h3>
+      <div className="w3-container">
+        <p>
+          <label>Number Of Days</label>
+          <input
+            className="w3-input w3-border"
+            type="Number"
+            value={days}
+            onChange={(e) => setDays(e.target.value)}
+          ></input>
+        </p>
+
+        <div className="w3-center w3-margin-bottom w3-margin-top">
+          <button
+            className="w3-button w3-round w3-ripple w3-blue"
+            onClick={() => submitForm()}
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export { SimForm1, SimForm2 };

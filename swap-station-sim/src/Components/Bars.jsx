@@ -3,7 +3,10 @@ import {
   BsFillCalculatorFill,
   BsFillBarChartLineFill,
   BsBackspace,
+  BsTable,
 } from "react-icons/bs";
+
+import { FcDataSheet } from "react-icons/fc";
 
 import { useDispatch, useSelector } from "react-redux";
 import { actSwitchPage, setSheet1Data } from "./../redux/action";
@@ -51,12 +54,10 @@ const SimBar = () => {
       >
         <BsFillFileEarmarkSpreadsheetFill />
       </a>
-      <a
-        className="w3-bar-item w3-ripple w3-xlarge w3-button w3-text-blue w3-margin-left w3-marrgin-right w3-right"
-        onClick={() => calculate()}
-      >
-        <BsFillCalculatorFill />
+      <a className="w3-bar-item w3-ripple w3-xlarge w3-button w3-text-blue w3-margin-left w3-marrgin-right w3-right">
+        <FcDataSheet />
       </a>
+
       <a
         onClick={() => dispatch(actSwitchPage("Sheet1Page"))}
         className="w3-bar-item w3-ripple w3-xlarge w3-button w3-text-blue w3-margin-left w3-marrgin-right w3-right"
@@ -83,4 +84,32 @@ const Sheet1Bar = ({ calcFunc }) => {
   );
 };
 
-export { SimBar, Sheet1Bar };
+const Sim2Bar = () => {
+  const dispatch = useDispatch();
+  const daysSim = useSelector((store) => store.daysSim);
+
+  function goToTable() {
+    if (daysSim === false) {
+      toast.dismiss();
+      toast.error("Submit Form To Run Simulation");
+      return;
+    }
+    dispatch(actSwitchPage("Sim2Table"));
+  }
+
+  return (
+    <div className="w3-bar w3-margin-top w3-margin-bottom">
+      <button className="w3-bar-item w3-ripple w3-xlarge w3-button w3-text-blue w3-margin-left w3-margin-right">
+        <BsFillFileEarmarkSpreadsheetFill />
+      </button>
+      <button
+        onClick={() => goToTable()}
+        className="w3-bar-item w3-ripple w3-xlarge w3-button w3-text-blue w3-margin-left w3-margin-right"
+      >
+        <BsTable />
+      </button>
+    </div>
+  );
+};
+
+export { SimBar, Sheet1Bar, Sim2Bar };

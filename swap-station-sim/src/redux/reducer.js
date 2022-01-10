@@ -2,6 +2,7 @@ const initialState = {
   page: "About",
   btns: ["w3-blue", "", "", ""],
   minRange: 5,
+  days: 5,
   simForm: {
     bikes: 200,
     swapStation: 12,
@@ -19,9 +20,13 @@ const initialState = {
       "https://sheet.best/api/sheets/ddef4cd6-4eca-4989-8a8f-7d3cbc1817f1",
     sheet2:
       "https://sheet.best/api/sheets/7a92adbd-627a-4791-be74-b74412c0b18d",
+    sheet3: "",
   },
   sheet1: false,
+  daysSim: false,
+  sim3Result: [],
   sheet1Data: [],
+  sheet3Data: [],
 };
 
 const reducer = (state = initialState, action) => {
@@ -29,6 +34,8 @@ const reducer = (state = initialState, action) => {
     About: 0,
     Simulation: 1,
     Sheet1Page: 1,
+    Sim2: 2,
+    Sim2Table: 2,
   };
   switch (action.type) {
     case "SWITCH_PAGE":
@@ -41,6 +48,11 @@ const reducer = (state = initialState, action) => {
         sheet1Data: action.value,
         simForm: action.inputs,
       };
+
+    case "SET_DAYS":
+      return { ...state, days: action.value };
+    case "SET_SIM_2":
+      return { ...state, sim3Result: action.value, daysSim: true };
     default:
       return state;
   }

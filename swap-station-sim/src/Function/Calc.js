@@ -36,7 +36,7 @@ function bikeChartVals(data) {
   return { xAxis: xAxis, yAxis: yAxis };
 }
 
-function simulation(inputs, ranges) {
+function simulation(inputs, ranges, day = 1) {
   //console.log(inputs);
   var arr = [];
   let charging = [];
@@ -63,21 +63,21 @@ function simulation(inputs, ranges) {
       charging = theCharge.charge;
 
       let obj = {
+        day: day,
         hour: i + 1,
         bike: newBikes.bike.bike,
-        startingRange: ranges[j].range,
-        depletion: dep,
-        bikeRange: newBikes.bike.range,
-        swap: newBikes.swapped,
-        swapStationBattery: batts,
-        charging: charging.length,
-        minRange: inputs.MinRange,
-        minBatteryDepletionRate: inputs.MinDepletionRate,
-        maxBatteryDepletionRate: inputs.MaxDepletionRate,
-        finishedCharging: theCharge.added,
+        startingRange: convertVal(ranges[j].range),
+        depletion: convertVal(dep),
+        bikeRange: convertVal(newBikes.bike.range),
+        swap: convertVal(newBikes.swapped),
+        swapStationBattery: convertVal(batts),
+        charging: convertVal(charging.length),
+        minRange: convertVal(inputs.MinRange),
+        minBatteryDepletionRate: convertVal(inputs.MinDepletionRate),
+        maxBatteryDepletionRate: convertVal(inputs.MaxDepletionRate),
+        finishedCharging: convertVal(theCharge.added),
       };
 
-      console.log(charging);
       arr.push(obj);
       // console.log(obj);
       bikes = newBikes.bikes;
@@ -116,6 +116,7 @@ function chargingBatt(hour, charge, batts) {
 
   for (let i = 0; i < charge.length; i++) {
     if (hour >= charge[i]) {
+      console.log("This is true");
       k = k + 1;
       batt++;
 
@@ -123,9 +124,41 @@ function chargingBatt(hour, charge, batts) {
     }
     inCharge.push(charge[i]);
   }
-  // console.log("!!!! Battery Added :", k);
-  // console.log({ charge: inCharge, batt: batt });
+  console.log({ charge: inCharge, batt: batt, added: k });
   return { charge: inCharge, batt: batt, added: k };
 }
 
-export { StartingRange, randomInt, sheet1Calc, bikeChartVals, simulation };
+function convertVal(value) {
+  if (value === false) {
+    return "FALSE";
+  }
+  if (value === true) {
+    return "TRUE";
+  }
+
+  if (value === "0" || value === 0) {
+    return "0";
+  }
+  return value;
+}
+
+function daysCalculations(days, inputs, ranges) {
+  let arr = [];
+
+  for (let i = 0; i < days; i++) {
+    let newArr = simulation(inputs, ranges, i + 1);
+    console.log(newArr);
+    arr = arr.concat(newArr);
+  }
+
+  return arr;
+}
+
+export {
+  StartingRange,
+  randomInt,
+  sheet1Calc,
+  bikeChartVals,
+  simulation,
+  daysCalculations,
+};
